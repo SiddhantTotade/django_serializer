@@ -1,7 +1,7 @@
 from django.db import models
 
 # Create your models here.
-class Plans(models.Model):
+class Plan(models.Model):
     monthly_rental = models.IntegerField()
     data_with_rollover = models.IntegerField()
     sms_per_day = models.IntegerField()
