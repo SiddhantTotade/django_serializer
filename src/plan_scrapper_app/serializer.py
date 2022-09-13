@@ -1,9 +1,9 @@
-from .models import Plans
+from .models import Plan
 from rest_framework import serializers
 
 
 class PlansSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = Plans
+        model = Plan
         fields = "__all__"

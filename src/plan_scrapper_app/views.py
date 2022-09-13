@@ -1,9 +1,3 @@
-from cgitb import reset
-from lib2to3.pgen2 import driver
-from urllib import request
-from django.shortcuts import render, redirect
-from selenium import webdriver
-from selenium.webdriver.common.by import By
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
@@ -16,6 +10,7 @@ from .serializer import PlansSerializer
 def planView(request):
     if request.method == "GET":
         plans = Plan.objects.all()
+        print("run")
         plansSerializer = PlansSerializer(plans, many=True)
         return Response(plansSerializer.data)
     elif request.method == "POST":
@@ -26,7 +21,7 @@ def planView(request):
         return Response(plansSerializer.errors)
 
 
-@api_view(['GET', 'PUT', 'POST'])
+@api_view(['GET', 'PUT', 'POST', 'DELETE'])
 def planDeatilView(request, pk):
     try:
         plan = Plan.objects.get(pk=pk)
@@ -34,13 +29,14 @@ def planDeatilView(request, pk):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
-        return Response(plan)
+        planSerializer = PlansSerializer(plan)
+        return Response(planSerializer)
     elif request.method == "PUT":
-        planserializer = PlansSerializer(plan, data=request.data)
-        if planserializer.is_valid():
-            planserializer.save()
-            return Response(planserializer.data)
-        return Response(planserializer.errors)
+        planSerializer = PlansSerializer(plan, data=request.data)
+        if planSerializer.is_valid():
+            planSerializer.save()
+            return Response(planSerializer.data)
+        return Response(planSerializer.errors)
     elif request.method == 'DELETE':
         plan.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
