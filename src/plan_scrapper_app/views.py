@@ -1,11 +1,14 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
+from django.views import View
+from django.shortcuts import render
 from .models import Plan
 from .serializer import PlansSerializer
+
 # Create your views here.
 
-
+# Get and Post API for storing JSON
 @api_view(['GET', 'POST'])
 def planView(request):
     if request.method == "GET":
@@ -20,7 +23,7 @@ def planView(request):
             return Response(status=status.HTTP_201_CREATED)
         return Response(plansSerializer.errors)
 
-
+# Get Put Post Delete API's for JSON and Database operations
 @api_view(['GET', 'PUT', 'POST', 'DELETE'])
 def planDeatilView(request, pk):
     try:
@@ -41,10 +44,9 @@ def planDeatilView(request, pk):
         plan.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+# Getting Plans form Database
+class PlanScrapper(View):
 
-# def scrapper():
-#     driver = webdriver.Chrome("/usr/bin/chromedriver")
-#     driver.get("https://www.airtel.in/myplan-infinity/")
-
-#     monthly_rental_price = driver.find_elements(By.CLASS_NAME, "price")
-#     data_with_rollover = driver.find_elements(By.CLASS_NAME,'')
+    def get(self, request):
+        plan = Plan.objects.all()
+        return render(request, 'plan_scrapper_app/base.html', {'plan': plan})

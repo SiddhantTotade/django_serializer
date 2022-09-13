@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'plan_scrapper_app/css/style.css' %}">
+    <title>Plan Scrapper App</title>
+</head>
+
+<body>
+    <div class="center">
+        <div>
+            <div class="table-list">
+                <h2>Airtel Plans</h2>
+                <table>
+                    <tr>
+                        <th>Monthly Rental</th>
+                        <th>Data With Rollover</th>
+                        <th>SMS Per Day</th>
+                        <th>Local-STD-Roaming</th>
+                        <th>Amazon Prime</th>
+                    </tr>
+                    {% for sub_field in plan %}
+                    <tr>
+                        <th>{{sub_field.monthly_rental}} ₹</th>
+                        <th>{{sub_field.data_with_rollover}} ₹</th>
+                        <th>{{sub_field.sms_per_day}} ₹</th>
+                        <th>{{sub_field.local_std_roaming}} ₹</th>
+                        <th>{{sub_field.amazon_prime}} ₹</th>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
